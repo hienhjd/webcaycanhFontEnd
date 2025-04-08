@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { Box, Container, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { PostApi } from '../Util/ApiConfig'; // Assuming you have a function for API requests
+import { PostApi, PostGoogleLogin } from '../Util/ApiConfig'; // Assuming you have a function for API requests
 // import { GoogleLogin } from 'react-google-login'; // Using the Google login component
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -41,6 +41,7 @@ const Login = () => {
 
     // Handle login logic here, assuming this endpoint is for login
     try {
+      
       const response = await PostApi({
         path: '/user/login',  // Changed the endpoint to /user/login
         body: {
@@ -103,7 +104,7 @@ const Login = () => {
       console.log('Email:', decodedToken.email);
       console.log('Name:', decodedToken.name);
       console.log('Picture:', decodedToken.picture);
-  
+      await PostGoogleLogin({email:decodedToken.email,avatar:decodedToken.picture});
       // Lưu thông tin đăng nhập
       localStorage.setItem('user', JSON.stringify({
         uid: user.uid,
@@ -113,7 +114,7 @@ const Login = () => {
       }));
       
     } catch (error) {
-      console.error('Authentication failed:', error);
+      console.error('Authentication failed:', error.message);
       
       // Xử lý lỗi cụ thể
       if (error.code === 'auth/account-exists-with-different-credential') {

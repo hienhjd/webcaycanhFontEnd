@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import Navbar from './components/Navbar';
@@ -15,6 +15,10 @@ import Register from './pages/Register';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
 
+import AddressInput from './pages/AddressInput';
+
+import Checkout from './pages/CheckoutPage';
+import CheckoutPage from './pages/CheckoutPage';
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,6 +31,17 @@ const theme = createTheme({
 });
 
 function App() {
+    // useEffect(()=>{
+    //   const fetchData = async () => {
+    //     try {
+    //       await ApiGetDat();
+    //     } catch (error) {
+    //       console.error('Error:', error.message);
+    //     }
+    //   };
+  
+    //   fetchData();
+    // },[])
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -44,6 +59,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+
+            <Route path="/nhapdiachi" element={<AddressInput />} />
+
+            <Route path="/thanhtoan" element={<CheckoutPage />} />
+
           </Routes>
           <Footer />
         </div>

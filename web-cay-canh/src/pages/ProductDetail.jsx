@@ -13,7 +13,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState('');
 
-  // This would typically come from an API
+  // Thông tin sản phẩm (giả lập API)
   const product = {
     id: 1,
     title: 'Cây string of heart',
@@ -37,11 +37,44 @@ const ProductDetail = () => {
     }
   };
 
+  // 👉 Hàm thêm vào localStorage
+  const handleAddToCart = () => {
+    if (!selectedOption) {
+      alert('Vui lòng chọn kích thước!');
+      return;
+    }
+
+    const selected = product.options.find(opt => opt.id === selectedOption);
+    const price = parseInt(selected.price.replace(/\D/g, ''));
+
+    const cartItem = {
+      id: `${product.id}-${selectedOption}`,
+      productId: product.id,
+      title: product.title,
+      option: selected.name,
+      price: price,
+      quantity: quantity,
+      image: product.images[0]
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingIndex = existingCart.findIndex(item => item.id === cartItem.id);
+
+    if (existingIndex >= 0) {
+      existingCart[existingIndex].quantity += quantity;
+    } else {
+      existingCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    alert('Đã thêm vào giỏ hàng!');
+  };
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
         <Grid container spacing={4}>
-          {/* Product Images */}
+          {/* Hình ảnh sản phẩm */}
           <Grid item xs={12} md={6}>
             <Box sx={{ position: 'relative' }}>
               <img
@@ -62,9 +95,9 @@ const ProductDetail = () => {
             </Box>
           </Grid>
 
-          {/* Product Info */}
+          {/* Thông tin sản phẩm */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h4" component="h1" gutterBottom>
+            <Typography variant="h4" gutterBottom>
               {product.title}
             </Typography>
             <Typography variant="h5" color="primary" gutterBottom>
@@ -74,7 +107,7 @@ const ProductDetail = () => {
               {product.description}
             </Typography>
 
-            {/* Product Options */}
+            {/* Lựa chọn kích thước */}
             <FormControl fullWidth sx={{ mb: 2 }}>
               <InputLabel>Chọn kích thước</InputLabel>
               <Select
@@ -90,7 +123,7 @@ const ProductDetail = () => {
               </Select>
             </FormControl>
 
-            {/* Quantity */}
+            {/* Số lượng */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <Typography>Số lượng:</Typography>
               <TextField
@@ -102,33 +135,26 @@ const ProductDetail = () => {
               />
             </Box>
 
-            {/* Action Buttons */}
+            {/* Nút hành động */}
             <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
               <Button
                 variant="contained"
                 startIcon={<ShoppingCartIcon />}
                 size="large"
                 fullWidth
+                onClick={handleAddToCart}
               >
                 Thêm vào giỏ hàng
               </Button>
-              <Button
-                variant="outlined"
-                startIcon={<FavoriteIcon />}
-                size="large"
-              >
+              <Button variant="outlined" startIcon={<FavoriteIcon />} size="large">
                 Yêu thích
               </Button>
-              <Button
-                variant="outlined"
-                startIcon={<ShareIcon />}
-                size="large"
-              >
+              <Button variant="outlined" startIcon={<ShareIcon />} size="large">
                 Chia sẻ
               </Button>
             </Box>
 
-            {/* Product Details */}
+            {/* Chi tiết thêm */}
             <Box sx={{ mt: 4 }}>
               <Typography variant="h6" gutterBottom>
                 Thông tin sản phẩm
@@ -155,4 +181,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail; 
+export default ProductDetail;
