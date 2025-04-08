@@ -80,7 +80,7 @@ const Cart = () => {
                             {item.price}
                           </Typography>
                         </Box>
-                        <IconButton onClick={() => handleRemoveItem(item.id)}>
+<IconButton onClick={() => handleRemoveItem(item.id)}>
                           <DeleteIcon />
                         </IconButton>
                       </Box>
@@ -134,9 +134,14 @@ const Cart = () => {
                     {calculateTotal().toLocaleString()} ₫
                   </Typography>
                 </Box>
-                <Button variant="contained" fullWidth size="large">
+                <Button
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  onClick={() => navigate('/thanh-toan')}
+>
                   Tiến hành thanh toán
-                </Button>
+                 </Button>
               </Box>
             </Grid>
           </Grid>
@@ -146,4 +151,4 @@ const Cart = () => {
   );
 };
 
-export default Cart; 
+export default Cart;
