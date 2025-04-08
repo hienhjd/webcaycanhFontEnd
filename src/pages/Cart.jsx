@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Button, TextField, IconButton, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import product1 from '../assets/img/Cay anh van phong/1.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: 'Cây string of heart',
-      price: '90.000 ₫',
-      quantity: 1,
-      image: product1,
-      option: 'Nhỏ'
-    },
-    // Add more items as needed
-  ]);
+  const navigate = useNavigate();
+
+  const [cartItems, setCartItems] = useState(() => {
+    const savedItems = localStorage.getItem('cartItems');
+    return savedItems ? JSON.parse(savedItems) : [
+      {
+        id: 1,
+        title: 'Cây string of heart',
+        price: '90.000 ₫',
+        quantity: 1,
+        image: product1,
+        option: 'Nhỏ'
+      },
+      // Add more items as needed
+    ];
+  });
+
+  // Cập nhật giỏ hàng khi thay đổi
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const handleQuantityChange = (id, change) => {
     setCartItems(items =>
@@ -34,10 +45,18 @@ const Cart = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
+    const totalPrice = cartItems.reduce((total, item) => {
       const price = parseInt(item.price.replace(/[^0-9]/g, ''));
       return total + (price * item.quantity);
     }, 0);
+
+    // Phí vận chuyển, có thể thay đổi theo tổng giá trị đơn hàng
+    const shippingFee = totalPrice > 500000 ? 0 : 30000; // Phí vận chuyển miễn phí cho đơn hàng trên 500.000₫
+    return totalPrice + shippingFee;
+  };
+
+  const handlePayment = () => {
+    navigate('/thanh-toan');
   };
 
   return (
@@ -80,7 +99,7 @@ const Cart = () => {
                             {item.price}
                           </Typography>
                         </Box>
-<IconButton onClick={() => handleRemoveItem(item.id)}>
+                        <IconButton onClick={() => handleRemoveItem(item.id)}>
                           <DeleteIcon />
                         </IconButton>
                       </Box>
@@ -125,7 +144,7 @@ const Cart = () => {
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography>Phí vận chuyển</Typography>
-                  <Typography>Miễn phí</Typography>
+                  <Typography>{calculateTotal() > 500000 ? 'Miễn phí' : '30.000 ₫'}</Typography>
                 </Box>
                 <Divider sx={{ my: 2 }} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
@@ -138,10 +157,10 @@ const Cart = () => {
                   variant="contained"
                   fullWidth
                   size="large"
-                  onClick={() => navigate('/thanh-toan')}
->
+                  onClick={handlePayment}
+                >
                   Tiến hành thanh toán
-                 </Button>
+                </Button>
               </Box>
             </Grid>
           </Grid>

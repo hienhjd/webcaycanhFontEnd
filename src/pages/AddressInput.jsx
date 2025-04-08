@@ -25,7 +25,9 @@ const mockCityData = {
   },
   // Thêm dữ liệu cho các thành phố khác nếu cần
 };
-
+function getCityNames(cityData) {
+  return Object.keys(cityData);
+}
 const AddressInput = () => {
   const [city, setCity] = useState('');
   const [district, setDistrict] = useState('');
@@ -81,7 +83,7 @@ const AddressInput = () => {
         <CardContent>
           <Grid container spacing={3}>
             {/* Thành phố */}
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
                 label="Thành phố"
                 variant="outlined"
@@ -90,8 +92,15 @@ const AddressInput = () => {
                 onChange={(e) => handleCityChange(e, e.target.value)}
                 sx={{ backgroundColor: '#f5f5f5' }}
               />
-            </Grid>
-
+            </Grid>  */}
+            <Grid item xs={12}>
+                <Autocomplete
+                  value={city}
+                  onChange={handleCityChange}
+                  options={getCityNames(mockCityData)}
+                  renderInput={(params) => <TextField {...params} label="Thành Phố" variant="outlined" fullWidth sx={{ backgroundColor: '#f5f5f5' }} />}
+                />
+              </Grid>
             {/* Quận/Huyện */}
             {city && cityInfo.districts.length > 0 && (
               <Grid item xs={12}>
