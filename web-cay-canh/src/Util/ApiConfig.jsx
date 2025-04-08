@@ -63,16 +63,17 @@ export const PostApi = async ({path,body}) => {
       console.error('Lỗi:', error);
     }
   };
-  export const PostGoogleLogin = async ({ tokenId }) => {
+  export const PostGoogleLogin = async ({ email, avatar }) => {
     try {
-      // Send the tokenId to the backend for authentication
-      const response = await fetch(`${url}/user/google-login`, {
+      // Send the email and avatar to the backend for user creation or login
+      const response = await fetch(`${url}/user/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tokenId: tokenId, // Google token that was received on the client
+          email: email,
+          avatar: avatar, 
         }),
       });
   
@@ -86,7 +87,7 @@ export const PostApi = async ({path,body}) => {
     } catch (error) {
       console.error('Lỗi:', error);
     }
-  };
+};
   export const DeleteApi = async ({ path, id }) => {
     try {
       const response = await fetch(`${url}${path.replace("{id}", id)}`, {
