@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import { Box, Container, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -87,13 +88,22 @@ const Login = () => {
       // Lấy thông tin người dùng
       const user = result.user;
       const userEmail = user.email; // <-- Đây là email cần lấy
-//gọi hàm tạo user bằng cái email này nè ô
       console.log('User info:', user);
-      
+  
       // Lấy Firebase ID token (để gửi đến backend nếu cần)
       const idToken = await user.getIdToken();
       console.log('Firebase ID token:', idToken);
-      
+  
+      // Giải mã token và in ra các giá trị
+      const decodedToken = jwtDecode(idToken); // Sử dụng `decode` thay vì `jwt_decode`
+      console.log('Decoded ID token:', decodedToken);
+  
+      // Nếu bạn muốn in chi tiết từng giá trị trong token
+      console.log('UID:', decodedToken.uid);
+      console.log('Email:', decodedToken.email);
+      console.log('Name:', decodedToken.name);
+      console.log('Picture:', decodedToken.picture);
+  
       // Lưu thông tin đăng nhập
       localStorage.setItem('user', JSON.stringify({
         uid: user.uid,
@@ -113,6 +123,7 @@ const Login = () => {
       }
     }
   };
+
 
   const handleFacebookLogin = () => {
     // Integrate Facebook login here
