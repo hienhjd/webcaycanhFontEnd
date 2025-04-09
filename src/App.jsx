@@ -20,8 +20,7 @@ import Payment from './pages/Payment';
 import AddressInput from './pages/AddressInput';
 
 import ThankYouPage from './pages/ThankYouPage';
-
-
+import UserInfo from './pages/UserInfo';
 const theme = createTheme({
   palette: {
     primary: {
@@ -62,11 +61,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/userinfo" element={<UserInfo />} />
 
             <Route path="/nhapdiachi" element={<AddressInput />} />
             <Route path="/thanh-toan" element={<Payment />} /> {/* Đảm bảo trang thanh toán có Route */}
             <Route path="/thanh-cong" element={<ThankYouPage />} /> {/* Đảm bảo đường dẫn đúng */}
-
           </Routes>
           <Footer />
         </div>

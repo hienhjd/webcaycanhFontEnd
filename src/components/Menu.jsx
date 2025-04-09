@@ -30,6 +30,7 @@ const MenuComponent = () => {
     { title: 'KIẾN THỨC CÂY CẢNH', path: '/kien-thuc' },
     { title: 'GIỚI THIỆU', path: '/gioi-thieu' },
     { title: 'LIÊN HỆ', path: '/lien-he' },
+    { title: 'ĐỊA CHỈ', path: '/nhapdiachi' },
   ];
 
   return (
@@ -80,19 +81,21 @@ const MenuComponent = () => {
         </Box>
 
         {mainMenuItems.map((item) => (
-          <Link
-            key={item.path}
-            to={item.path}
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' }
-            }}
-          >
-            {item.title}
-          </Link>
-        ))}
+  <div key={item.path}>
+    <Link
+      to={item.path}
+      style={{
+        color: 'white',
+        textDecoration: 'none',
+        padding: '0.5rem 1rem',
+        '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' }
+      }}
+    >
+      {item.title}
+    </Link>
+  </div>
+))}
+
       </Box>
     </Box>
   );

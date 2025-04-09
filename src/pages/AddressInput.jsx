@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, Box, Grid, TextField, Card, CardContent, Divider, Autocomplete } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material'; // Thêm icon
+import { Container, Typography, Button, Box, Grid, TextField, Card, CardContent, Divider, Autocomplete, IconButton, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { CheckCircle, LocationOn } from '@mui/icons-material'; // Thêm icon
 
 const mockCityData = {
   "Hà Nội": {
@@ -25,14 +25,17 @@ const mockCityData = {
   },
   // Thêm dữ liệu cho các thành phố khác nếu cần
 };
+
 function getCityNames(cityData) {
   return Object.keys(cityData);
 }
+
 const AddressInput = () => {
   const [city, setCity] = useState('');
   const [district, setDistrict] = useState('');
   const [commune, setCommune] = useState('');
   const [savedAddress, setSavedAddress] = useState('');
+  const [openDialog, setOpenDialog] = useState(false); // Quản lý trạng thái mở dialog
 
   // Hàm gọi dữ liệu từ mock (hoặc API) khi người dùng nhập thành phố
   const getCityData = (cityName) => {
@@ -73,6 +76,14 @@ const AddressInput = () => {
 
   const cityInfo = getCityData(city);
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <Container maxWidth="sm" sx={{ padding: 4, backgroundColor: '#FAFAFA', borderRadius: 2, boxShadow: 8, marginTop: 5 }}>
       <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 4, fontWeight: 700, color: '#1A73E8' }}>
@@ -83,24 +94,14 @@ const AddressInput = () => {
         <CardContent>
           <Grid container spacing={3}>
             {/* Thành phố */}
-            {/* <Grid item xs={12}>
-              <TextField
-                label="Thành phố"
-                variant="outlined"
-                fullWidth
-                value={city}
-                onChange={(e) => handleCityChange(e, e.target.value)}
-                sx={{ backgroundColor: '#f5f5f5' }}
-              />
-            </Grid>  */}
             <Grid item xs={12}>
-                <Autocomplete
-                  value={city}
-                  onChange={handleCityChange}
-                  options={getCityNames(mockCityData)}
-                  renderInput={(params) => <TextField {...params} label="Thành Phố" variant="outlined" fullWidth sx={{ backgroundColor: '#f5f5f5' }} />}
-                />
-              </Grid>
+              <Autocomplete
+                value={city}
+                onChange={handleCityChange}
+                options={getCityNames(mockCityData)}
+                renderInput={(params) => <TextField {...params} label="Thành Phố" variant="outlined" fullWidth sx={{ backgroundColor: '#f5f5f5' }} />}
+              />
+            </Grid>
             {/* Quận/Huyện */}
             {city && cityInfo.districts.length > 0 && (
               <Grid item xs={12}>
@@ -151,8 +152,30 @@ const AddressInput = () => {
           <Typography sx={{ marginTop: 1 }}>
             Địa chỉ đã lưu: <strong>{savedAddress}</strong>
           </Typography>
+          <IconButton
+            sx={{ marginTop: 2 }}
+            color="primary"
+            onClick={handleOpenDialog} // Mở dialog khi nhấn vào icon
+          >
+            <LocationOn sx={{ fontSize: 40 }} />
+          </IconButton>
         </Box>
       )}
+
+      {/* Dialog hiển thị địa chỉ */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogContent>
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            Địa chỉ đã lưu:
+          </Typography>
+          <Typography sx={{ marginTop: 1 }}>
+            {savedAddress}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Đóng</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

@@ -1,16 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Box, Container, InputBase, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import PhoneIcon from '@mui/icons-material/Phone';
 import logo from '../assets/img/logo/rsz_logo-01.png';
 
 const Navbar = () => {
+  const path=localStorage.getItem("user")?"/userinfo":"/login";
   return (
     <Box sx={{ 
       display: 'flex', 
@@ -55,12 +54,10 @@ const Navbar = () => {
 
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-              <Link to="#"><FacebookIcon /></Link>
-              <Link to="#"><InstagramIcon /></Link>
               <Link to="#"><PhoneIcon /></Link>
             </Box>
             <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-              <Link to="/login"><PersonIcon /></Link>
+              <Link to={path}><PersonIcon /></Link>
               <Link to="/cart"><ShoppingBagIcon /></Link>
             </Box>
           </Box>
