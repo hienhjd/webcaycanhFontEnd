@@ -47,6 +47,7 @@ const Payment = () => {
     /*alert('Thanh toán thành công!');
     // Chuyển hướng người dùng tới trang xác nhận thanh toán
     navigate('/thanh-cong');*/
+
   };
 
   return (
