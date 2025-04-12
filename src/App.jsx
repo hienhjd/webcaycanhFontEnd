@@ -14,12 +14,20 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
+<<<<<<< HEAD
 import Payment from './pages/Payment';
 import AddressInput from './pages/AddressInput';
 import ThankYouPage from './pages/ThankYouPage';
 import UserInfo from './pages/UserInfo';
 import { CartProvider } from './context/CartContext';
 
+=======
+
+import AddressInput from './pages/AddressInput';
+
+import Checkout from './pages/CheckoutPage';
+import CheckoutPage from './pages/CheckoutPage';
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
 const theme = createTheme({
   palette: {
     primary: {
@@ -45,6 +53,7 @@ function App() {
     // },[])
   return (
     <ThemeProvider theme={theme}>
+<<<<<<< HEAD
       <CartProvider>
         <Router>
           <div className="App">
@@ -70,6 +79,32 @@ function App() {
           </div>
         </Router>
       </CartProvider>
+=======
+      <Router>
+        <div className="App">
+          <Navbar />
+          <MenuComponent />
+          <Banner />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/san-pham" element={<Products />} />
+            <Route path="/kien-thuc" element={<Knowledge />} />
+            <Route path="/gioi-thieu" element={<About />} />
+            <Route path="/lien-he" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+
+            <Route path="/nhapdiachi" element={<AddressInput />} />
+
+            <Route path="/thanhtoan" element={<CheckoutPage />} />
+
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
     </ThemeProvider>
   );
 }
