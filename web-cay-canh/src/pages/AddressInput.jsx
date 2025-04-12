@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 // import React, { useState, useEffect } from 'react';
 // import { Container, Typography, Button, Box, Grid, TextField, Card, CardContent, Divider, Autocomplete } from '@mui/material';
 // import { CheckCircle } from '@mui/icons-material'; // Thêm icon
@@ -152,7 +149,6 @@
 // };
 
 // export default AddressInput;
->>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
 import React, { useState, useEffect } from "react";
 import {
   Container,
@@ -355,7 +351,3 @@ const AddressInput = () => {
 };
 
 export default AddressInput;
-<<<<<<< HEAD
-
-=======
->>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12

@@ -55,12 +55,6 @@ const Footer = () => {
               <Link href="/lien-he" color="inherit" underline="none">
                 Liên hệ
               </Link>
-<<<<<<< HEAD
-              <Link href="/nhap-dia-chi" color="inherit" underline="none">
-                nhập địa chỉ
-              </Link>
-=======
->>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
             </Box>
           </Grid>
 
