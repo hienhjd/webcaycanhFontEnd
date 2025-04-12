@@ -17,7 +17,6 @@ const ThankYouPage = () => {
 
         <Box sx={{ mt: 4 }}>
           <Typography variant="h6">Thông tin người thanh toán:</Typography>
-          <Typography>Họ và tên: {userDetails.name}</Typography>
           <Typography>Số điện thoại: {userDetails.phone}</Typography>
           <Typography>Địa chỉ giao hàng: {userDetails.address}</Typography>
         </Box>
