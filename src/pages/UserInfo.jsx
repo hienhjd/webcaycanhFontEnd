@@ -23,7 +23,7 @@ console.log(userInfo);
       <Typography variant="h6">{userInfo.name}</Typography>
       <Typography variant="body2" color="textSecondary">{userInfo.email}</Typography>
       {/* <Typography variant="body2">{userInfo.phone}</Typography> */}
-      {/* <Typography variant="body2">{userInfo.address}</Typography> */}
+      {userInfo.address&&<Typography variant="body2">{userInfo.address}</Typography>}
       <AddressInput/>
     </Box>
   );

@@ -12,6 +12,12 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
   const [product,setproduct]=useState([]||undefined);
+  const products = [
+    { id: 1, title: 'Cây String of Heart' },
+    { id: 2, title: 'Cây Kim Tiền' },
+    { id: 3, title: 'Cây Lưỡi Hổ' },
+  ];
+  
 
   /**
    *  [

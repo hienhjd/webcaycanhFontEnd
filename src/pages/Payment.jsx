@@ -83,9 +83,7 @@ const Payment = () => {
             Thông tin thanh toán
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField label="Họ và tên" fullWidth variant="outlined" name="name" value={userDetails.name} onChange={handleInputChange} />
-            </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField label="Số điện thoại" fullWidth variant="outlined" name="phone" value={userDetails.phone} onChange={handleInputChange} />
             </Grid>

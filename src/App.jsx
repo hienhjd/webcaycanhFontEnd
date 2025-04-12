@@ -14,13 +14,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
-
 import Payment from './pages/Payment';
-
 import AddressInput from './pages/AddressInput';
-
 import ThankYouPage from './pages/ThankYouPage';
 import UserInfo from './pages/UserInfo';
+import { CartProvider } from './context/CartContext';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -46,30 +45,31 @@ function App() {
     // },[])
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <MenuComponent />
-          <Banner />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/san-pham" element={<Products />} />
-            <Route path="/kien-thuc" element={<Knowledge />} />
-            <Route path="/gioi-thieu" element={<About />} />
-            <Route path="/lien-he" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/userinfo" element={<UserInfo />} />
-
-            <Route path="/nhapdiachi" element={<AddressInput />} />
-            <Route path="/thanh-toan" element={<Payment />} /> {/* Đảm bảo trang thanh toán có Route */}
-            <Route path="/thanh-cong" element={<ThankYouPage />} /> {/* Đảm bảo đường dẫn đúng */}
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+      <CartProvider>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <MenuComponent />
+            <Banner />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/san-pham" element={<Products />} />
+              <Route path="/kien-thuc" element={<Knowledge />} />
+              <Route path="/gioi-thieu" element={<About />} />
+              <Route path="/lien-he" element={<Contact />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/userinfo" element={<UserInfo />} />
+              <Route path="/nhapdiachi" element={<AddressInput />} />
+              <Route path="/thanh-toan" element={<Payment />} />
+              <Route path="/thanh-cong" element={<ThankYouPage />} />
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
+      </CartProvider>
     </ThemeProvider>
   );
 }
