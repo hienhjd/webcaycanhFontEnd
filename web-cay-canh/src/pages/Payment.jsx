@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Typography, Box, Grid, Button, TextField, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import QRCode from 'react-qr-code';  // Thư viện để tạo mã QR
 import { useNavigate } from 'react-router-dom';
+import {PostApiPayment} from "../Util/ApiConfig.jsx";
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -37,12 +38,15 @@ const Payment = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Lưu thông tin người thanh toán vào localStorage
     localStorage.setItem('userDetails', JSON.stringify(userDetails));
-    alert('Thanh toán thành công!');
+    const url=await PostApiPayment({path: "/api/payment/create",body: {amount:"100000",orderInfo:"user1"}});
+    console.log(url);
+    window.location.href = url;
+    /*alert('Thanh toán thành công!');
     // Chuyển hướng người dùng tới trang xác nhận thanh toán
-    navigate('/thanh-cong');
+    navigate('/thanh-cong');*/
   };
 
   return (

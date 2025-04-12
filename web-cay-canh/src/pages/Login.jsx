@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Box, Container, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -27,6 +27,7 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const navigate=useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +53,8 @@ const Login = () => {
 
       if (response.code === 0) {
         console.log('Login successful:', response.result);
+        localStorage.setItem("user",response.result);
+        navigate("userinfo");
         // Handle successful login (e.g., redirect, store token, etc.)
       } else {
         console.error('Login failed:', response.message);
@@ -98,20 +101,12 @@ const Login = () => {
       // Giải mã token và in ra các giá trị
       const decodedToken = jwtDecode(idToken); // Sử dụng `decode` thay vì `jwt_decode`
       console.log('Decoded ID token:', decodedToken);
-  
-      // Nếu bạn muốn in chi tiết từng giá trị trong token
-      console.log('UID:', decodedToken.uid);
-      console.log('Email:', decodedToken.email);
-      console.log('Name:', decodedToken.name);
-      console.log('Picture:', decodedToken.picture);
-      await PostGoogleLogin({email:decodedToken.email,avatar:decodedToken.picture});
+
+      const userapi=await PostGoogleLogin({email:decodedToken.email,avatar:decodedToken.picture});
       // Lưu thông tin đăng nhập
-      localStorage.setItem('user', JSON.stringify({
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL
-      }));
+      console.log(userapi)
+      localStorage.setItem('user',JSON.stringify(userapi));
+      navigate("/userinfo");
       
     } catch (error) {
       console.error('Authentication failed:', error.message);

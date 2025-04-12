@@ -15,12 +15,52 @@ export const PostApi = async ({path,body}) => {
   
       const data = await response.json();
       return data.result;
-      console.log('Kết quả tạo mới:', data.result);
   
     } catch (error) {
       console.error('Lỗi:', error);
     }
   };
+export const PostApiPayment = async ({path,body}) => {
+  try {
+    const response = await fetch(`${url}${path}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.text();
+    return data;
+
+  } catch (error) {
+    console.error('Lỗi:', error);
+  }
+};
+export const PostApiNobody = async ({path}) => {
+  try {
+    const response = await fetch(`${url}${path}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    return data.result;
+
+  } catch (error) {
+    console.error('Lỗi:', error);
+  }
+};
   export const ApiRequest = async ({ path, body, method = 'POST' }) => {
     try {
       const response = await fetch(`${url}${path}`, {

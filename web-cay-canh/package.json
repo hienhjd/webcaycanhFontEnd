@@ -21,13 +21,10 @@
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.1",
         "react-dom": "^18.2.0",
-<<<<<<< HEAD
         "react-qr-code": "^2.0.15",
         "react-router-dom": "^6.30.0",
-        "react-share": "^5.2.2"
-=======
+        "react-share": "^5.2.2",
         "react-router-dom": "^6.30.0"
->>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
     },
     "devDependencies": {
         "@types/react": "^18.2.55",

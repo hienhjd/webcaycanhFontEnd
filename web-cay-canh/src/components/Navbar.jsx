@@ -60,7 +60,9 @@ const Navbar = () => {
               <Link to="#"><PhoneIcon /></Link>
             </Box>
             <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-              <Link to="/login"><PersonIcon /></Link>
+              <Link to={
+                localStorage.getItem("user")?"/userinfo":"/login"
+              }><PersonIcon /></Link>
               <Link to="/cart"><ShoppingBagIcon /></Link>
             </Box>
           </Box>

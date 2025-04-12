@@ -12,29 +12,6 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
   const [product,setproduct]=useState([]||undefined);
-
-  /**
-   *  [
-    {
-      "idProduct": "0b1662af-542f-485a-995f-8f75b3bf7890",
-      "productName": "ab",
-      "price": "20",
-      "url": "https://res.cloudinary.com/dg8hjh2c7/image/upload/b2aa985e-7fd9-40c8-a238-dfba1380638a_Screenshot_2025-01-13_132046.png"
-    },
-    {
-      "idProduct": "9045feec-8893-463b-b269-aa1710a9c429",
-      "productName": "a",
-      "price": "20",
-      "url": "https://res.cloudinary.com/dg8hjh2c7/image/upload/bdf7af48-cd07-48ba-a3ce-31515717f66c_Screenshot_2025-01-13_132046.png"
-    },
-    {
-      "idProduct": "f1cb2c88-1664-43d8-a16c-f5014ccc60d4",
-      "productName": "ab",
-      "price": "20",
-      "url": "https://res.cloudinary.com/dg8hjh2c7/image/upload/015ff0fa-f00f-48f4-9923-7544dfcaa5c3_Screenshot_2025-01-13_132046.png"
-    }
-  ]
-   */
   useEffect(() => {
     // Kiểm tra xem sản phẩm đã có trong localStorage chưa
     const storedProducts = localStorage.getItem("product");

@@ -4,33 +4,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import product1 from '../assets/img/Cay anh van phong/1.jpg';
+import {useNavigate} from "react-router-dom";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: 'Cây string of heart',
-      price: '90.000 ₫',
-      quantity: 1,
-      image: product1,
-      option: 'Nhỏ'
-    },
-    // Add more items as needed
-  ]);
-
+  const navigate=useNavigate();
+  const cartProduct=localStorage.getItem("cart")?JSON.parse(localStorage.getItem("cart")):[];
+const [cartItems,setCartItems]=useState(cartProduct);
   const handleQuantityChange = (id, change) => {
     setCartItems(items =>
       items.map(item =>
-        item.id === id
+        item.productId === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
       )
     );
+    localStorage.setItem("cart",JSON.stringify(cartItems));
   };
 
   const handleRemoveItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    console.log(id);
+    setCartItems(items => items.filter(item => item.productId !== id));
+    localStorage.setItem("cart",JSON.stringify(cartItems));
   };
 
   const calculateTotal = () => {
@@ -66,26 +60,25 @@ const Cart = () => {
                   <Grid container spacing={2} alignItems="center" sx={{ py: 2 }}>
                     <Grid item xs={3}>
                       <img
-                        src={item.image}
-                        alt={item.title}
+                        src={item.image||"https://thuthuatphanmem.vn/cay-canh-dep-tong-hop-hinh-anh-cay-canh-dep-nhat/"}
+                        alt={item.name||"Product Name"}
                         style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
                       />
                     </Grid>
                     <Grid item xs={9}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <Box>
-                          <Typography variant="h6">{item.title}</Typography>
-                          <Typography color="text.secondary">Kích thước: {item.option}</Typography>
+                          <Typography variant="h6">{item.name}</Typography>
                           <Typography color="primary" sx={{ mt: 1 }}>
                             {item.price}
                           </Typography>
                         </Box>
-<IconButton onClick={() => handleRemoveItem(item.id)}>
+<IconButton onClick={() => handleRemoveItem(item.productId)}>
                           <DeleteIcon />
                         </IconButton>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                        <IconButton onClick={() => handleQuantityChange(item.id, -1)}>
+                        <IconButton onClick={() => handleQuantityChange(item.productId, -1)}>
                           <RemoveIcon />
                         </IconButton>
                         <TextField
@@ -97,12 +90,12 @@ const Cart = () => {
                             const value = Math.max(1, parseInt(e.target.value) || 1);
                             setCartItems(items =>
                               items.map(i =>
-                                i.id === item.id ? { ...i, quantity: value } : i
+                                i.productId === item.productId ? { ...i, quantity: value } : i
                               )
                             );
                           }}
                         />
-                        <IconButton onClick={() => handleQuantityChange(item.id, 1)}>
+                        <IconButton onClick={() => handleQuantityChange(item.productId, 1)}>
                           <AddIcon />
                         </IconButton>
                       </Box>

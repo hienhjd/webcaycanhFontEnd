@@ -225,6 +225,9 @@ const AddressInput = () => {
       return;
     }
     const full = `${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
+    localStorage.setItem("city",selectedCity.name);
+    localStorage.setItem("distrist",selectedDistrict.name);
+    localStorage.setItem("ward",selectedWard.name);
     setSavedAddress(full);
   };
 
