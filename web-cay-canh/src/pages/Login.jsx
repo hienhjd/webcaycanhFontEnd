@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
+import { Link, useNavigate } from 'react-router-dom';
+=======
 import { Link } from 'react-router-dom';
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
 import { jwtDecode } from "jwt-decode";
 import { Box, Container, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -74,7 +78,12 @@ const Login = () => {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+<<<<<<< HEAD
+  const navigate=useNavigate();
+  {localStorage.getItem("user")&&navigate("/userinfo")}
+=======
   
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -98,7 +107,11 @@ const Login = () => {
       // Giải mã token và in ra các giá trị
       const decodedToken = jwtDecode(idToken); // Sử dụng `decode` thay vì `jwt_decode`
       console.log('Decoded ID token:', decodedToken);
+<<<<<<< HEAD
+  localStorage.setItem('user', JSON.stringify(decodedToken));
+=======
   
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
       // Nếu bạn muốn in chi tiết từng giá trị trong token
       console.log('UID:', decodedToken.uid);
       console.log('Email:', decodedToken.email);
@@ -112,8 +125,15 @@ const Login = () => {
         email: user.email,
         photoURL: user.photoURL
       }));
+<<<<<<< HEAD
+navigate("/userinfo");
       
     } catch (error) {
+      navigate("/");
+=======
+      
+    } catch (error) {
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
       console.error('Authentication failed:', error.message);
       
       // Xử lý lỗi cụ thể

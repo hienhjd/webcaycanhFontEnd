@@ -30,6 +30,10 @@ const MenuComponent = () => {
     { title: 'KIẾN THỨC CÂY CẢNH', path: '/kien-thuc' },
     { title: 'GIỚI THIỆU', path: '/gioi-thieu' },
     { title: 'LIÊN HỆ', path: '/lien-he' },
+<<<<<<< HEAD
+    { title: 'ĐỊA CHỈ', path: '/nhapdiachi' },
+=======
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
   ];
 
   return (
@@ -80,6 +84,23 @@ const MenuComponent = () => {
         </Box>
 
         {mainMenuItems.map((item) => (
+<<<<<<< HEAD
+  <div key={item.path}>
+    <Link
+      to={item.path}
+      style={{
+        color: 'white',
+        textDecoration: 'none',
+        padding: '0.5rem 1rem',
+        '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' }
+      }}
+    >
+      {item.title}
+    </Link>
+  </div>
+))}
+
+=======
           <Link
             key={item.path}
             to={item.path}
@@ -93,6 +114,7 @@ const MenuComponent = () => {
             {item.title}
           </Link>
         ))}
+>>>>>>> ca6e274e713eb024698f96f05891cb2affb9ba12
       </Box>
     </Box>
   );
