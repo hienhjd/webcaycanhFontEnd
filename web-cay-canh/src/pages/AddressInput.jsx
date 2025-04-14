@@ -167,6 +167,7 @@ import { CheckCircle } from "@mui/icons-material";
 import axios from "axios";
 
 const API = "https://provinces.open-api.vn/api";
+const api1 = "https://nhom11t4sangca1.onrender.com/shipping/fee";
 
 const AddressInput = () => {
   const [cities, setCities] = useState([]);
@@ -179,6 +180,7 @@ const AddressInput = () => {
 
   const [loading, setLoading] = useState(false);
   const [savedAddress, setSavedAddress] = useState("");
+  const [shippingFee, setShippingFee] = useState(null);
 
   // Lấy danh sách tỉnh/thành phố
   useEffect(() => {
@@ -219,17 +221,43 @@ const AddressInput = () => {
     }
   }, [selectedDistrict]);
 
+  const normalizeProvinceName = (name) => {
+    if (!name) return "";
+    return name
+      .replace(/^Thành phố\s*/i, "") // Bỏ "Thành phố"
+      .replace(/^Tỉnh\s*/i, "")      // Bỏ "Tỉnh"
+      .replace(/^Thành\s*/i, "")     // Bỏ "Thành"
+      .trim();
+  };
   const handleSave = () => {
     if (!selectedCity || !selectedDistrict || !selectedWard) {
       alert("Vui lòng chọn đầy đủ tỉnh, quận và phường.");
       return;
     }
-    const full = `${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
-    localStorage.setItem("city",selectedCity.name);
-    localStorage.setItem("distrist",selectedDistrict.name);
-    localStorage.setItem("ward",selectedWard.name);
-    setSavedAddress(full);
+  
+    const normalizedProvince = normalizeProvinceName(selectedCity.name);
+  
+    axios
+      .post(api1, {
+        province: normalizedProvince,
+        district: selectedDistrict.name,
+        ward: selectedWard.name,
+      })
+      .then((res) => {
+        const full = `${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
+        localStorage.setItem("city", selectedCity.name);
+        localStorage.setItem("district", selectedDistrict.name);
+        localStorage.setItem("ward", selectedWard.name);
+        setSavedAddress(full);
+        console.log("Phí vận chuyển:", res.data);
+      })
+      .catch((err) => {
+        console.error("Lỗi khi gọi API shipping:", err.response?.data || err);
+        alert("Đã xảy ra lỗi khi tính phí vận chuyển.");
+      });
   };
+  
+  
 
   return (
     <Container
@@ -347,6 +375,13 @@ const AddressInput = () => {
           <Typography sx={{ mt: 1, fontWeight: 500 }}>
             Địa chỉ đã lưu: <strong>{savedAddress}</strong>
           </Typography>
+
+          {shippingFee !== null && (
+            <Typography sx={{ mt: 1, fontWeight: 500 }}>
+              Phí vận chuyển:{" "}
+              <strong>{shippingFee.toLocaleString()} VND</strong>
+            </Typography>
+          )}
         </Box>
       )}
     </Container>
@@ -354,3 +389,4 @@ const AddressInput = () => {
 };
 
 export default AddressInput;
+
