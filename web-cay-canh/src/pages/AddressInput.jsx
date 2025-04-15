@@ -236,7 +236,6 @@ const AddressInput = () => {
     }
   
     const normalizedProvince = normalizeProvinceName(selectedCity.name);
-  
     axios
       .post(api1, {
         province: normalizedProvince,
@@ -249,7 +248,7 @@ const AddressInput = () => {
         localStorage.setItem("district", selectedDistrict.name);
         localStorage.setItem("ward", selectedWard.name);
         setSavedAddress(full);
-        console.log("Phí vận chuyển:", res.data);
+        localStorage.setItem("total",res.data.total)
       })
       .catch((err) => {
         console.error("Lỗi khi gọi API shipping:", err.response?.data || err);

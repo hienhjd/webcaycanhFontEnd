@@ -4,7 +4,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {PostApiPayment} from "../Util/ApiConfig.jsx";
 
 const Cart = () => {
   const navigate=useNavigate();
@@ -26,14 +27,21 @@ const [cartItems,setCartItems]=useState(cartProduct);
     setCartItems(items => items.filter(item => item.productId !== id));
     localStorage.setItem("cart",JSON.stringify(cartItems));
   };
-
+  const ship=localStorage.getItem("total")?localStorage.getItem("total"):0;
   const calculateTotal = () => {
+
     return cartItems.reduce((total, item) => {
       const price = parseInt(item.price.replace(/[^0-9]/g, ''));
+
       return total + (price * item.quantity);
     }, 0);
   };
+  const handleSubmit = async (amount) => {
+    const url=await PostApiPayment({path: "/api/payment/create",body: {amount:amount,orderInfo:"user1"}});
+    console.log(url);
+    window.location.href = url;
 
+  };
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
@@ -70,7 +78,10 @@ const [cartItems,setCartItems]=useState(cartProduct);
                         <Box>
                           <Typography variant="h6">{item.name}</Typography>
                           <Typography color="primary" sx={{ mt: 1 }}>
-                            {item.price}
+                            {new Intl.NumberFormat('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND'
+                            }).format(item.price)}
                           </Typography>
                         </Box>
 <IconButton onClick={() => handleRemoveItem(item.productId)}>
@@ -118,20 +129,30 @@ const [cartItems,setCartItems]=useState(cartProduct);
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography>Phí vận chuyển</Typography>
-                  <Typography>Miễn phí</Typography>
+                  <Typography>{localStorage.getItem("total")?new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                  }).format(localStorage.getItem("total")): (
+                      <Link to="/userinfo" style={{ textDecoration: 'none', color: '#1976d2' }}>
+                        Cập nhật địa chỉ &gt;&gt;
+                      </Link>
+                  )}</Typography>
                 </Box>
                 <Divider sx={{ my: 2 }} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                   <Typography variant="h6">Tổng cộng</Typography>
                   <Typography variant="h6" color="primary">
-                    {calculateTotal().toLocaleString()} ₫
+                    {new Intl.NumberFormat('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND'
+                    }).format(parseInt(calculateTotal()) +parseInt(ship))}
                   </Typography>
                 </Box>
                 <Button
                   variant="contained"
                   fullWidth
                   size="large"
-                  onClick={() => navigate('/thanh-toan')}
+                  onClick={async ()=>{handleSubmit(parseInt(calculateTotal()) +parseInt(ship))}}
 >
                   Tiến hành thanh toán
                  </Button>
