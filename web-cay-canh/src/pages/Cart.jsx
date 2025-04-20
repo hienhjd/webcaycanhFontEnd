@@ -58,7 +58,7 @@ const Cart = () => {
     const totalAmount = totalPrice + shipFee;
 
     // Giới hạn tối đa 999000 nếu vượt quá 1 triệu
-    const cappedAmount = totalAmount > 1_000_000 ? 100000 : totalAmount;
+    const cappedAmount = totalAmount 
 
     // Lấy thông tin giao hàng từ localStorage
     const toPhone = localStorage.getItem("phoneNumber");
@@ -82,7 +82,7 @@ const Cart = () => {
 
     const payload = {
       zaloPayRequest: {
-        amount: cappedAmount,
+        amount: cappedAmount+"",
         orderInfo: "đơn hàng",
       },
       shippingOrderRequest: {
