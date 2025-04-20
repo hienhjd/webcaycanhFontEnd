@@ -20,6 +20,7 @@ import ThankYouPage from './pages/ThankYouPage';
 import UserInfo from './pages/UserInfo';
 import { CartProvider } from './context/CartContext';
 
+import ExcelLikeTable from './pages/ExcelLikeTable.jsx';
 const theme = createTheme({
   palette: {
     primary: {
@@ -65,6 +66,8 @@ function App() {
               <Route path="/nhapdiachi" element={<AddressInput />} />
               <Route path="/thanh-toan" element={<Payment />} />
               <Route path="/thanh-cong" element={<ThankYouPage />} />
+
+              <Route path="/excel-like-table" element={<ExcelLikeTable />} />
             </Routes>
             <Footer />
           </div>

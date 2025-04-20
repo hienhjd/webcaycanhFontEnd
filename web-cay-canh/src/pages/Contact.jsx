@@ -4,6 +4,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import axios from 'axios';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -22,48 +23,75 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle contact form submission logic here
-    console.log('Contact form data:', formData);
+
+    // Kiểm tra nếu form đã có đầy đủ thông tin
+    if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
+      alert("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+
+    // Gửi dữ liệu tới server qua API
+    try {
+      const response = await axios.post('https://your-backend-api.com/contact', formData);
+
+      if (response.status === 200) {
+        alert("Tin nhắn đã được gửi thành công!");
+        // Bạn có thể reset form sau khi gửi thành công
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi gửi tin nhắn:", error);
+      alert("Đã xảy ra lỗi khi gửi tin nhắn.");
+    }
   };
 
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 8 }}>
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
+        {/* Title */}
+        <Typography variant="h4" component="h1" align="center" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
           Liên hệ
         </Typography>
 
         <Grid container spacing={4}>
           {/* Contact Information */}
           <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ p: 3, height: '100%' }}>
-              <Typography variant="h6" gutterBottom>
+            <Paper elevation={12} sx={{ p: 3, height: '100%', borderRadius: 3, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.05)' } }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
                 Thông tin liên hệ
               </Typography>
               <Box sx={{ mt: 3 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <LocationOnIcon sx={{ mr: 1, color: 'primary.main' }} />
-                  <Typography>
+                  <Typography sx={{ fontSize: '16px', color: '#555' }}>
                     123 Đường ABC, Quận 1, TP.HCM
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <PhoneIcon sx={{ mr: 1, color: 'primary.main' }} />
-                  <Typography>
+                  <Typography sx={{ fontSize: '16px', color: '#555' }}>
                     0123 456 789
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <EmailIcon sx={{ mr: 1, color: 'primary.main' }} />
-                  <Typography>
+                  <Typography sx={{ fontSize: '16px', color: '#555' }}>
                     contact@totoro.com
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <AccessTimeIcon sx={{ mr: 1, color: 'primary.main' }} />
-                  <Typography>
+                  <Typography sx={{ fontSize: '16px', color: '#555' }}>
                     Thứ 2 - Chủ nhật: 8:00 - 22:00
                   </Typography>
                 </Box>
@@ -73,8 +101,8 @@ const Contact = () => {
 
           {/* Contact Form */}
           <Grid item xs={12} md={8}>
-            <Paper elevation={3} sx={{ p: 3 }}>
-              <Typography variant="h6" gutterBottom>
+            <Paper elevation={12} sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.05)' } }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
                 Gửi tin nhắn
               </Typography>
               <form onSubmit={handleSubmit}>
@@ -87,6 +115,10 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      sx={{
+                        '& .MuiInputLabel-root': { fontWeight: 'bold' },
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px' },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -98,6 +130,10 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      sx={{
+                        '& .MuiInputLabel-root': { fontWeight: 'bold' },
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px' },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -108,6 +144,10 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                      sx={{
+                        '& .MuiInputLabel-root': { fontWeight: 'bold' },
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px' },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -118,6 +158,10 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
+                      sx={{
+                        '& .MuiInputLabel-root': { fontWeight: 'bold' },
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px' },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -130,6 +174,10 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      sx={{
+                        '& .MuiInputLabel-root': { fontWeight: 'bold' },
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px' },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -138,7 +186,17 @@ const Contact = () => {
                   type="submit"
                   variant="contained"
                   size="large"
-                  sx={{ mt: 3 }}
+                  sx={{
+                    mt: 3,
+                    width: '100%',
+                    bgcolor: '#1A73E8',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    borderRadius: '12px',
+                    '&:hover': {
+                      bgcolor: '#0f61c5',
+                    },
+                  }}
                 >
                   Gửi tin nhắn
                 </Button>
@@ -146,24 +204,9 @@ const Contact = () => {
             </Paper>
           </Grid>
         </Grid>
-
-        {/* Map */}
-        <Box sx={{ mt: 4 }}>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Bản đồ
-            </Typography>
-            <Box sx={{ height: 400, bgcolor: 'grey.200' }}>
-              {/* Add Google Maps or other map component here */}
-              <Typography align="center" sx={{ pt: 20 }}>
-                Map will be displayed here
-              </Typography>
-            </Box>
-          </Paper>
-        </Box>
       </Box>
     </Container>
   );
 };
 
-export default Contact; 
+export default Contact;

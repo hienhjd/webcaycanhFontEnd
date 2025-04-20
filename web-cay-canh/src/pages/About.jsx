@@ -44,6 +44,8 @@ const About = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          borderRadius: '8px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
           '&::before': {
             content: '""',
             position: 'absolute',
@@ -51,7 +53,8 @@ const About = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)'
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            borderRadius: '8px',
           }
         }}>
           <Typography 
@@ -60,7 +63,9 @@ const About = () => {
             sx={{ 
               color: 'white',
               position: 'relative',
-              textAlign: 'center'
+              textAlign: 'center',
+              fontSize: '3rem',
+              fontWeight: 'bold',
             }}
           >
             Về chúng tôi
@@ -77,7 +82,7 @@ const About = () => {
               Totoro Garden – Uy tín vươn xa là thương hiệu trong lĩnh vực cây cảnh mini, sen đá – xương rồng, cây nội thất tại Hà Nội. Ra đời từ năm 2017, tới nay Totoro Garden đã phục vụ 30.000+ khách hàng.
             </Typography>
             <Typography paragraph>
-              Triết lý kinh doanh của Chúng tôi là "Lan tỏa sức sống" và "Là bạn đồng hành" với khách hàng. Chúng tôi coi công việc của mình luôn mạng lại màu xanh tươi cho cuộc sống và kiến tạo giá trị, sức sống cho mọi không gian mà chúng tôi bước tới.
+              Triết lý kinh doanh của chúng tôi là "Lan tỏa sức sống" và "Là bạn đồng hành" với khách hàng. Chúng tôi coi công việc của mình luôn mang lại màu xanh tươi cho cuộc sống và kiến tạo giá trị, sức sống cho mọi không gian mà chúng tôi bước tới.
             </Typography>
             <Typography>
               Sự tin tưởng của Quý khách hàng trong suốt thời gian qua là niềm tự hào và là động lực để Totoro Garden tiếp tục lớn mạnh và phát triển.
@@ -87,7 +92,12 @@ const About = () => {
             <img 
               src={banner4}
               alt="Totoro Garden" 
-              style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
+              style={{ 
+                width: '100%', 
+                height: 'auto', 
+                borderRadius: '8px', 
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)' 
+              }}
             />
           </Grid>
         </Grid>
@@ -101,14 +111,21 @@ const About = () => {
             {features.map((feature, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Paper 
-                  elevation={3} 
+                  elevation={6} 
                   sx={{ 
                     p: 3, 
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    borderRadius: '8px',
+                    boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-10px)',
+                      boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+                    }
                   }}
                 >
                   <Box sx={{ color: 'primary.main', mb: 2 }}>
@@ -130,4 +147,4 @@ const About = () => {
   );
 };
 
-export default About; 
+export default About;
