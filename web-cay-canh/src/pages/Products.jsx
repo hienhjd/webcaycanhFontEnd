@@ -16,7 +16,7 @@ const Products = () => {
     // Kiểm tra xem sản phẩm đã có trong localStorage chưa
     const storedProducts = localStorage.getItem("product");
 
-    if (storedProducts) {
+    if (!storedProducts) {
       // Nếu có, lấy dữ liệu từ localStorage và set vào state
       setproduct(JSON.parse(storedProducts));
     } else {

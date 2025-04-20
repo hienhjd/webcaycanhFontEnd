@@ -17,6 +17,7 @@ import axios from "axios";
 
 const API = "https://provinces.open-api.vn/api";
 const api1 = "https://nhom11t4sangca1.onrender.com/shipping/fee";
+const api2 = "https://nhom11t4sangca1.onrender.com/shipping/getDistrictWard";
 
 const AddressInput = () => {
   const [cities, setCities] = useState([]);
@@ -27,11 +28,10 @@ const AddressInput = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState(""); // State for phone number
-
+  const [Address, setAddress] = useState(""); // State for phone number
   const [loading, setLoading] = useState(false);
   const [savedAddress, setSavedAddress] = useState("");
   const [shippingFee, setShippingFee] = useState(null);
-
   // Lấy danh sách tỉnh/thành phố
   useEffect(() => {
     axios
@@ -75,8 +75,8 @@ const AddressInput = () => {
     if (!name) return "";
     return name
       .replace(/^Thành phố\s*/i, "") // Bỏ "Thành phố"
-      .replace(/^Tỉnh\s*/i, "")      // Bỏ "Tỉnh"
-      .replace(/^Thành\s*/i, "")     // Bỏ "Thành"
+      .replace(/^Tỉnh\s*/i, "") // Bỏ "Tỉnh"
+      .replace(/^Thành\s*/i, "") // Bỏ "Thành"
       .trim();
   };
 
@@ -85,8 +85,26 @@ const AddressInput = () => {
       alert("Vui lòng chọn đầy đủ tỉnh, quận, phường và nhập số điện thoại.");
       return;
     }
-
     const normalizedProvince = normalizeProvinceName(selectedCity.name);
+    axios
+      .get(api2, {
+        params: {
+          province: normalizedProvince,
+          district: selectedDistrict.name,
+          ward: selectedWard.name,
+        },
+      })
+      .then((res) => {
+        if (res.data?.code !== 0) {
+          const { districtID, wardCode } = res.data.result;
+          localStorage.setItem("districtID", districtID);
+          localStorage.setItem("wardCode", wardCode);
+        }
+      })
+      .catch((err) => {
+        console.error("Lỗi khi lấy districtID và wardCode:", err);
+      });
+
     axios
       .post(api1, {
         province: normalizedProvince,
@@ -94,14 +112,17 @@ const AddressInput = () => {
         ward: selectedWard.name,
       })
       .then((res) => {
-        const full = `${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
+        const full = `${Address}, ${selectedWard.name}, ${selectedDistrict.name}, ${selectedCity.name}`;
         localStorage.setItem("city", selectedCity.name);
         localStorage.setItem("district", selectedDistrict.name);
         localStorage.setItem("ward", selectedWard.name);
-        localStorage.setItem("phoneNumber", phoneNumber); // Store phone number
+        localStorage.setItem("phoneNumber", phoneNumber);
+        localStorage.setItem("address", Address); // 👉 lưu địa chỉ cụ thể
         setSavedAddress(full);
+        setShippingFee(res.data.total); // 👉 gán phí vận chuyển
         localStorage.setItem("total", res.data.total);
       })
+
       .catch((err) => {
         console.error("Lỗi khi gọi API shipping:", err.response?.data || err);
         alert("Đã xảy ra lỗi khi tính phí vận chuyển.");
@@ -198,13 +219,30 @@ const AddressInput = () => {
 
             <Grid item xs={12}>
               <TextField
+                label="Địa chỉ"
+                variant="outlined"
+                fullWidth
+                value={Address}
+                onChange={(e) => setAddress(e.target.value)}
+                sx={{ mt: 2 }}
+                type="tel"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
                 label="Số điện thoại"
                 variant="outlined"
                 fullWidth
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                error={phoneNumber !== "" && !/^[0-9]{9,11}$/.test(phoneNumber)}
+                helperText={
+                  phoneNumber !== "" && !/^[0-9]{9,11}$/.test(phoneNumber)
+                    ? "Số điện thoại không hợp lệ (phải từ 9–11 chữ số)"
+                    : ""
+                }
                 sx={{ mt: 2 }}
-                type="tel"
+                type="text"
               />
             </Grid>
           </Grid>
@@ -241,10 +279,10 @@ const AddressInput = () => {
             Địa chỉ đã lưu: <strong>{savedAddress}</strong>
           </Typography>
 
-          {shippingFee !== null && (
+          {shippingFee !== null && !isNaN(shippingFee) && (
             <Typography sx={{ mt: 1, fontWeight: 500 }}>
               Phí vận chuyển:{" "}
-              <strong>{shippingFee.toLocaleString()} VND</strong>
+              <strong>{Number(shippingFee).toLocaleString()} VND</strong>
             </Typography>
           )}
         </Box>

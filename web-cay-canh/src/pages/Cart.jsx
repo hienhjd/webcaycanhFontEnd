@@ -35,10 +35,13 @@ const Cart = () => {
   };
 
   const handleRemoveItem = (id) => {
-    console.log(id);
-    setCartItems((items) => items.filter((item) => item.productId !== id));
-    localStorage.setItem("cart", JSON.stringify(cartItems));
+    setCartItems((items) => {
+      const updatedItems = items.filter((item) => item.productId != id);
+      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      return updatedItems;
+    });
   };
+  
   const ship = localStorage.getItem("total")
     ? localStorage.getItem("total")
     : 0;
@@ -60,8 +63,8 @@ const Cart = () => {
     // Lấy thông tin giao hàng từ localStorage
     const toPhone = localStorage.getItem("phoneNumber");
     const toAddress = localStorage.getItem("city");
-    const toWardCode = localStorage.getItem("ward");
-    const toDistrictId = parseInt(localStorage.getItem("district"));
+    const toWardCode = localStorage.getItem("wardCode");
+    const toDistrictId = parseInt(localStorage.getItem("districtID"));
 
     const items = cartItems.map((item) => ({
       name: item.name,
@@ -100,8 +103,8 @@ const Cart = () => {
         to_name: "Khách hàng Test",
         to_phone: toPhone,
         to_address: toAddress,
-        to_ward_code: "20308",
-        to_district_id: 1444,
+        to_ward_code: toWardCode,
+        to_district_id: toDistrictId,
         cod_amount: totalAmount,
         content: "Test đơn hàng API GHN",
         weight: 500,
