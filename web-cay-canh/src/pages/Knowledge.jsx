@@ -63,7 +63,8 @@ const Knowledge = () => {
             sx={{ 
               color: 'white',
               position: 'relative',
-              textAlign: 'center'
+              textAlign: 'center',
+              fontWeight: 700
             }}
           >
             Kiến thức cây cảnh
@@ -78,6 +79,13 @@ const Knowledge = () => {
             InputProps={{
               startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />
             }}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              '& .MuiInputBase-root': {
+                borderRadius: '8px'
+              }
+            }}
           />
         </Box>
 
@@ -89,12 +97,16 @@ const Knowledge = () => {
                 component={Link} 
                 to={`/knowledge/${article.id}`}
                 sx={{ 
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  textDecoration: 'none',
+                  height: '100%', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  textDecoration: 'none', 
+                  borderRadius: '12px',
+                  boxShadow: 2,
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   '&:hover': {
-                    boxShadow: 6
+                    boxShadow: 8,
+                    transform: 'scale(1.05)',
                   }
                 }}
               >
@@ -103,9 +115,13 @@ const Knowledge = () => {
                   height="200"
                   image={article.image}
                   alt={article.title}
+                  sx={{
+                    borderRadius: '12px 12px 0 0',
+                    transition: '0.3s ease',
+                  }}
                 />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h6" component="h3">
+                <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                  <Typography gutterBottom variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
                     {article.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" paragraph>
@@ -120,6 +136,13 @@ const Knowledge = () => {
                     variant="contained" 
                     fullWidth
                     endIcon={<SearchIcon />}
+                    sx={{
+                      backgroundColor: '#1A73E8',
+                      '&:hover': {
+                        backgroundColor: '#1c56b8',
+                      },
+                      fontWeight: 'bold',
+                    }}
                   >
                     Đọc thêm
                   </Button>
@@ -131,7 +154,7 @@ const Knowledge = () => {
 
         {/* Categories */}
         <Box sx={{ mt: 8 }}>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
             Danh mục
           </Typography>
           <Grid container spacing={2}>
@@ -141,6 +164,15 @@ const Knowledge = () => {
                   variant="outlined"
                   component={Link}
                   to={`/knowledge/category/${category.toLowerCase()}`}
+                  sx={{
+                    padding: '10px 20px',
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    '&:hover': {
+                      backgroundColor: '#f0f0f0',
+                    }
+                  }}
                 >
                   {category}
                 </Button>
@@ -153,4 +185,4 @@ const Knowledge = () => {
   );
 };
 
-export default Knowledge; 
+export default Knowledge;

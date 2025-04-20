@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Box, Container, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { PostApi, PostGoogleLogin } from '../Util/ApiConfig'; // Assuming you have a function for API requests
-// import { GoogleLogin } from 'react-google-login'; // Using the Google login component
+import { PostApi, PostGoogleLogin } from '../Util/ApiConfig';
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCZZgFicMjVbjI0gdp8iZI7UMcJE5Pa8LQ",
@@ -22,12 +22,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,9 +41,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Handle login logic here, assuming this endpoint is for login
     try {
-      
       const response = await PostApi({
         path: '/user/login',  // Changed the endpoint to /user/login
         body: {
@@ -53,9 +52,8 @@ const Login = () => {
 
       if (response.code === 0) {
         console.log('Login successful:', response.result);
-        localStorage.setItem("user",response.result);
+        localStorage.setItem("user", response.result);
         navigate("userinfo");
-        // Handle successful login (e.g., redirect, store token, etc.)
       } else {
         console.error('Login failed:', response.message);
       }
@@ -64,54 +62,31 @@ const Login = () => {
     }
   };
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCZZgFicMjVbjI0gdp8iZI7UMcJE5Pa8LQ",
-    authDomain: "baitap4nhom11.firebaseapp.com",
-    projectId: "baitap4nhom11",
-    storageBucket: "baitap4nhom11.firebasestorage.app",
-    messagingSenderId: "445385168247",
-    appId: "1:445385168247:web:748831fb68d8c956d2fd72",
-    measurementId: "G-BKELEWNN0E"
-  };
-  
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      
-      // Thêm scope nếu cần
       provider.addScope('profile');
       provider.addScope('email');
-      
-      // Sử dụng signInWithPopup thay vì xử lý token thủ công
+
       const result = await signInWithPopup(auth, provider);
-      
-      // Lấy thông tin người dùng
       const user = result.user;
-      const userEmail = user.email; // <-- Đây là email cần lấy
+      const userEmail = user.email;
       console.log('User info:', user);
-  
-      // Lấy Firebase ID token (để gửi đến backend nếu cần)
+
       const idToken = await user.getIdToken();
       console.log('Firebase ID token:', idToken);
-  
-      // Giải mã token và in ra các giá trị
-      const decodedToken = jwtDecode(idToken); // Sử dụng `decode` thay vì `jwt_decode`
+
+      const decodedToken = jwtDecode(idToken);
       console.log('Decoded ID token:', decodedToken);
 
-      const userapi=await PostGoogleLogin({email:decodedToken.email,avatar:decodedToken.picture});
-      // Lưu thông tin đăng nhập
-      console.log(userapi)
-      localStorage.setItem('user',JSON.stringify(userapi));
+      const userapi = await PostGoogleLogin({ email: decodedToken.email, avatar: decodedToken.picture });
+      console.log(userapi);
+      localStorage.setItem('user', JSON.stringify(userapi));
       navigate("/userinfo");
       
     } catch (error) {
       console.error('Authentication failed:', error.message);
       
-      // Xử lý lỗi cụ thể
       if (error.code === 'auth/account-exists-with-different-credential') {
         alert('Tài khoản này đã được đăng ký bằng phương thức khác');
       } else {
@@ -120,21 +95,18 @@ const Login = () => {
     }
   };
 
-
   const handleFacebookLogin = () => {
-    // Integrate Facebook login here
     console.log('Facebook login clicked');
-    // Redirect to your Facebook login flow or handle the OAuth logic
   };
 
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 8 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" align="center" gutterBottom>
+        <Paper elevation={6} sx={{ p: 4, borderRadius: '12px', boxShadow: '0px 6px 12px rgba(0,0,0,0.1)' }}>
+          <Typography variant="h4" component="h1" align="center" gutterBottom sx={{ fontWeight: 'bold', color: '#1A73E8' }}>
             Đăng nhập
           </Typography>
-          
+
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -145,6 +117,7 @@ const Login = () => {
               onChange={handleChange}
               margin="normal"
               required
+              sx={{ borderRadius: '8px' }}
             />
             <TextField
               fullWidth
@@ -155,20 +128,21 @@ const Login = () => {
               onChange={handleChange}
               margin="normal"
               required
+              sx={{ borderRadius: '8px' }}
             />
             <Button
               type="submit"
               variant="contained"
               fullWidth
               size="large"
-              sx={{ mt: 3 }}
+              sx={{ mt: 3, borderRadius: '8px', backgroundColor: '#1A73E8', '&:hover': { backgroundColor: '#1c56b8' } }}
             >
               Đăng nhập
             </Button>
           </form>
 
           <Box sx={{ mt: 3, textAlign: 'center' }}>
-            <Link to="/forgot-password" style={{ textDecoration: 'none', color: 'primary.main' }}>
+            <Link to="/forgot-password" style={{ textDecoration: 'none', color: '#1A73E8' }}>
               Quên mật khẩu?
             </Link>
           </Box>
@@ -176,25 +150,34 @@ const Login = () => {
           <Divider sx={{ my: 3 }}>hoặc</Divider>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            
-                <Button
-                  variant="outlined"
-                  startIcon={<GoogleIcon />}
-                  fullWidth
-                  size="large"
-                  onClick={handleGoogleLogin} 
-                  // disabled={renderProps.disabled}
-                >
-                  Đăng nhập với Google
-                </Button>
-              
-            
+            <Button
+              variant="outlined"
+              startIcon={<GoogleIcon />}
+              fullWidth
+              size="large"
+              sx={{
+                borderRadius: '8px',
+                color: '#db4437',
+                borderColor: '#db4437',
+                '&:hover': { backgroundColor: '#db4437', color: '#fff' }
+              }}
+              onClick={handleGoogleLogin}
+            >
+              Đăng nhập với Google
+            </Button>
+
             <Button
               variant="outlined"
               startIcon={<FacebookIcon />}
               fullWidth
               size="large"
-              onClick={handleFacebookLogin}  // Trigger Facebook login here
+              sx={{
+                borderRadius: '8px',
+                color: '#1877F2',
+                borderColor: '#1877F2',
+                '&:hover': { backgroundColor: '#1877F2', color: '#fff' }
+              }}
+              onClick={handleFacebookLogin}
             >
               Đăng nhập với Facebook
             </Button>
@@ -203,7 +186,7 @@ const Login = () => {
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="body2">
               Chưa có tài khoản?{' '}
-              <Link to="/register" style={{ textDecoration: 'none', color: 'primary.main' }}>
+              <Link to="/register" style={{ textDecoration: 'none', color: '#1A73E8' }}>
                 Đăng ký ngay
               </Link>
             </Typography>
