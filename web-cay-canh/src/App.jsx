@@ -20,7 +20,7 @@ import ThankYouPage from './pages/ThankYouPage';
 import UserInfo from './pages/UserInfo';
 import { CartProvider } from './context/CartContext';
 
-import ExcelLikeTable from './pages/ExcelLikeTable.jsx';
+import PaymentForm from './pages/PaymentForm.jsx';
 const theme = createTheme({
   palette: {
     primary: {
@@ -54,6 +54,8 @@ function App() {
             <Banner />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />} /> {/* Make sure your ProductDetail component is handling this */}
+       
               <Route path="/san-pham" element={<Products />} />
               <Route path="/kien-thuc" element={<Knowledge />} />
               <Route path="/gioi-thieu" element={<About />} />
@@ -67,7 +69,9 @@ function App() {
               <Route path="/thanh-toan" element={<Payment />} />
               <Route path="/thanh-cong" element={<ThankYouPage />} />
 
-              <Route path="/excel-like-table" element={<ExcelLikeTable />} />
+              <Route path="/payment-form" element={<PaymentForm />} />
+
+              
             </Routes>
             <Footer />
           </div>

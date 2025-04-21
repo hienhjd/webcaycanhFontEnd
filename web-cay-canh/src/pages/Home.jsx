@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Container, Typography, Grid, Button, Card, CardMedia, CardContent } from '@mui/material';
+import React from 'react';
+import { Box, Container, Typography, Button, Grid, Card, CardMedia, CardContent } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link } from 'react-router-dom';
 import banner4 from '../assets/img/banner/4.jpg';
@@ -7,7 +7,6 @@ import product1 from '../assets/img/product-new/1.jpg';
 import product2 from '../assets/img/product-new/2.jpg';
 import product3 from '../assets/img/product-new/3.jpg';
 import product5 from '../assets/img/product-new/5.jpg';
-import ExcelLikeTable from './ExcelLikeTable'; // Import Excel-like table component
 
 const Home = () => {
   const newProducts = [
@@ -37,33 +36,8 @@ const Home = () => {
     }
   ];
 
-  const [isTableVisible, setIsTableVisible] = useState(false); // State to toggle Excel table visibility
-
   return (
     <Container maxWidth="xl">
-      {/* Nút Hiển Thị Bảng Excel */}
-      <Box sx={{ textAlign: 'center', my: 4 }}>
-        <Button 
-          variant="contained" 
-          color="secondary" 
-          onClick={() => setIsTableVisible(!isTableVisible)} 
-          sx={{
-            padding: '10px 20px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            borderRadius: '8px',
-            '&:hover': {
-              backgroundColor: '#0d47a1',
-            },
-          }}
-        >
-          {isTableVisible ? 'Ẩn Bảng Excel' : 'Hiển Thị Bảng Excel'}
-        </Button>
-      </Box>
-
-      {/* Hiển Thị Bảng Excel */}
-      {isTableVisible && <ExcelLikeTable />}
-
       {/* About Section */}
       <Box sx={{ my: 8 }}>
         <Typography variant="h4" component="h2" align="center" gutterBottom sx={{ fontWeight: 700, color: '#1A73E8' }}>
@@ -104,7 +78,7 @@ const Home = () => {
             <Grid item xs={12} sm={6} md={3} key={product.id}>
               <Card 
                 component={Link} 
-                to={`/product/${product.id}`}
+                to={`/product/${product.id}`} // Use template string with backticks
                 sx={{ 
                   height: '100%', 
                   display: 'flex', 
