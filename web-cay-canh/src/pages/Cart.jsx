@@ -56,21 +56,19 @@ const Cart = () => {
     const totalPrice = calculateTotal();
     const shipFee = parseInt(localStorage.getItem("total")) || 0;
     const totalAmount = totalPrice + shipFee;
-
-    // Giới hạn tối đa 999000 nếu vượt quá 1 triệu
-    const cappedAmount = totalAmount 
-
-    // Lấy thông tin giao hàng từ localStorage
+  
+    const cappedAmount = totalAmount;
+  
     const toPhone = localStorage.getItem("phoneNumber");
     const toAddress = localStorage.getItem("city");
     const toWardCode = localStorage.getItem("wardCode");
     const toDistrictId = parseInt(localStorage.getItem("districtID"));
-
+  
     const items = cartItems.map((item) => ({
       name: item.name,
       code: "SP001",
       quantity: item.quantity,
-      price: parseInt(item.price.replace(/[^0-9]/g, "")),
+      price: parseInt(String(item.price).replace(/[^0-9]/g, "")), // đảm bảo item.price là string
       length: 12,
       width: 12,
       height: 12,
@@ -79,10 +77,10 @@ const Cart = () => {
         level1: "Hàng hóa",
       },
     }));
-
+  
     const payload = {
       zaloPayRequest: {
-        amount: cappedAmount+"",
+        amount: cappedAmount + "",
         orderInfo: "đơn hàng",
       },
       shippingOrderRequest: {
@@ -119,7 +117,7 @@ const Cart = () => {
         items: items,
       },
     };
-
+  
     try {
       const response = await axios.post(
         "https://nhom11t4sangca1.onrender.com/api/payment/create",
@@ -129,12 +127,16 @@ const Cart = () => {
         }
       );
       const { data } = response;
-      console.log("Redirecting to:", data.url);
+      console.log("Phản hồi từ API:", data);
+      window.location.href = data.trim();
     } catch (error) {
       console.error("Lỗi khi gọi API thanh toán:", error);
       alert("Thanh toán thất bại!");
     }
+    
   };
+  
+  
 
   return (
     <Container maxWidth="xl">

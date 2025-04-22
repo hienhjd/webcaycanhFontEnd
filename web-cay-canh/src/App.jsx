@@ -55,7 +55,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductDetail />} /> {/* Make sure your ProductDetail component is handling this */}
-       
               <Route path="/san-pham" element={<Products />} />
               <Route path="/kien-thuc" element={<Knowledge />} />
               <Route path="/gioi-thieu" element={<About />} />
@@ -68,10 +67,7 @@ function App() {
               <Route path="/nhapdiachi" element={<AddressInput />} />
               <Route path="/thanh-toan" element={<Payment />} />
               <Route path="/thanh-cong" element={<ThankYouPage />} />
-
               <Route path="/payment-form" element={<PaymentForm />} />
-
-              
             </Routes>
             <Footer />
           </div>
