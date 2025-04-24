@@ -27,6 +27,9 @@ const PaymentForm = () => {
 
   useEffect(() => {
     if (orderCode) {
+      // Xóa cart khỏi localStorage
+      localStorage.removeItem("cart");
+  
       axios
         .post(`${GHN_API}/order-info`, { orderCode })
         .then((res) => {
@@ -36,7 +39,8 @@ const PaymentForm = () => {
         })
         .catch((err) => console.error("Lỗi gọi API chi tiết:", err));
     }
-  }, [orderCode]);
+  }, []);
+  
 
   const handleInputChange = (index, field, value) => {
     const updatedRows = [...rows];
